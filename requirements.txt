@@ -1,3 +1,4 @@
+python==3.9.23
 # Streamlit and UI
 streamlit==1.22.0
 streamlit-aggrid  # Updated to stable newer version
