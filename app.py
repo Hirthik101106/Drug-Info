@@ -11,7 +11,7 @@ import socket
 import logging
 
 # --- Configuration ---
-st.set_page_config(page_title="CureGenie Pro 🧬", page_icon="🧪", layout="wide")
+st.set_page_config(page_title="Drug-Info", page_icon="🧪", layout="wide")
 logging.basicConfig(filename='curegenie.log', level=logging.INFO)
 
 def check_internet():
@@ -202,7 +202,7 @@ def generate_safe_summary(data, summarizer, max_length=400):
 # --- Main UI ---
 def main():
     models = load_models()
-    st.title("🧬 CureGenie Pro")
+    st.title("Drug-Info")
 
     col1, col2 = st.columns([3, 1])
     with col1:
