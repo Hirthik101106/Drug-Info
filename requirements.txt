@@ -1,25 +1,24 @@
-python==3.9.23
-# Streamlit and UI
-streamlit==1.22.0
-streamlit-aggrid  # Updated to stable newer version
-plotly==5.18.0
+# Core App and UI
+streamlit
+streamlit-aggrid
+plotly
 
-# Core Data Processing
+# Data Processing
 pyarrow==10.0.1
 pandas==1.5.3
 numpy==1.23.5
-RDKit
 pubchempy==1.0.4
 chembl-webresource-client==0.10.9
 
+# NLP & BioNLP
 spacy==3.7.4
-en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.0/en_core_web_sm-3.7.0-py3-none-any.whl
 scispacy==0.5.5
-en-core-sci-sm @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_core_sci_sm-0.5.4.tar.gz
-
 transformers==4.31.0
 torch==2.0.1 --extra-index-url https://download.pytorch.org/whl/cpu
 sentencepiece==0.1.99
-
 requests==2.31.0
 tenacity==8.2.3
+
+# NLP models (external wheels)
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.0/en_core_web_sm-3.7.0-py3-none-any.whl
+en-core-sci-sm @ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_core_sci_sm-0.5.4.tar.gz
