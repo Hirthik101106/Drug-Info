@@ -8,7 +8,7 @@ import socket
 import logging
 
 # --- Configuration ---
-st.set_page_config(page_title="CureGenie Pro 🧬", page_icon="🧪", layout="wide")
+st.set_page_config(page_title="Drug-Info", page_icon="🧪", layout="wide")
 logging.basicConfig(filename='curegenie.log', level=logging.INFO, filemode='w')
 
 def check_internet():
@@ -138,7 +138,7 @@ def get_biomedical_data(query, input_type="name"):
 
 def main():
     nlp = load_models()
-    st.title("🧬 CureGenie Pro (Bioactivity Fixed)")
+    st.title("Drug-Info")
 
     col1, col2 = st.columns([3, 1])
     with col1:
