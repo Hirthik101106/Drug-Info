@@ -8,7 +8,7 @@ import socket
 import logging
 
 # --- Configuration ---
-st.set_page_config(page_title="Drug-Info", page_icon="🧪", layout="wide")
+st.set_page_config(page_title="CureGenie Pro 🧬", page_icon="🧪", layout="wide")
 logging.basicConfig(filename='curegenie.log', level=logging.INFO, filemode='w')
 
 def check_internet():
@@ -38,7 +38,7 @@ def safe_float_format(value, decimal_places=2):
         return 'N/A'
 
 @retry(stop=stop_after_attempt(3))
-@st.cache_data(ttl=3600, max_entries=20)
+@st.cache_data(ttl=3600, max_entries=3)  # ONLY CHANGE: max_entries=20 → max_entries=3
 def get_biomedical_data(query, input_type="name"):
     data = {
         'cid': None, 
@@ -62,7 +62,7 @@ def get_biomedical_data(query, input_type="name"):
             'formula': compound.molecular_formula,
             'weight': float(compound.molecular_weight) if compound.molecular_weight else None,
             'smiles': compound.canonical_smiles,
-            'inchi_key': compound.inchikey  # Fixed: Properly capture InChIKey
+            'inchi_key': compound.inchikey
         })
     except Exception as e:
         data['debug_log'].append(f"PubChem error: {e}")
@@ -96,7 +96,7 @@ def get_biomedical_data(query, input_type="name"):
             ).only([
                 'target_chembl_id', 'standard_value', 'standard_units',
                 'standard_type', 'assay_description', 'pchembl_value'
-            ])[:15]  # Show 15 entries
+            ])[:15]
 
             for act in activities:
                 try:
@@ -138,12 +138,12 @@ def get_biomedical_data(query, input_type="name"):
 
 def main():
     nlp = load_models()
-    st.title("Drug-Info")
+    st.title("🧬 CureGenie Pro (Bioactivity Fixed)")
 
     col1, col2 = st.columns([3, 1])
     with col1:
         input_type = st.selectbox("Input Type", ["Drug Name", "SMILES", "InChI Key"])
-        query = st.text_input("Enter compound:", placeholder="e.g., aspirin", value="aspirin")  # Default aspirin
+        query = st.text_input("Enter compound:", placeholder="e.g., aspirin", value="aspirin")
     with col2:
         st.markdown("<br>", unsafe_allow_html=True)
         analyze_btn = st.button("Analyze", type="primary")
@@ -160,7 +160,6 @@ def main():
             if data:
                 st.success("✅ Data retrieved successfully")
                 
-                # Chemical Properties
                 st.subheader("🧪 Chemical Properties")
                 chem_props = pd.DataFrame({
                     "Property": ["CID", "Name", "Formula", "Weight", "SMILES", "InChI Key"],
@@ -170,12 +169,11 @@ def main():
                         data.get('formula', 'N/A'),
                         safe_float_format(data.get('weight')),
                         data.get('smiles', 'N/A'),
-                        data.get('inchi_key', 'N/A')  # Now showing InChI Key
+                        data.get('inchi_key', 'N/A')
                     ]
                 })
                 st.dataframe(chem_props)
 
-                # Bioactivities
                 st.subheader("📊 Bioactivities (Top 15)")
                 if data.get('bioactivities'):
                     bio_df = pd.DataFrame(data['bioactivities'])
@@ -183,7 +181,6 @@ def main():
                 else:
                     st.warning("No bioactivity data found. Try another compound.")
 
-                # Debug (if needed)
                 with st.expander("🐛 Debug Log", expanded=False):
                     st.code("\n".join(data.get("debug_log", [])))
             else:
